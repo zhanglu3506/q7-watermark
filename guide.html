@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>发型水印 安装说明</title>
+<link rel="icon" href="icon-192.png">
+<style>
+  :root {
+    --bg: #faf7f2; --card: #ffffff; --ink: #1c1917; --muted: #57534e; --line: #e7e2da;
+    --accent: #b45309; --blue: #0a84ff; --ok: #15803d; --tip: #fff7e6; --tip-line: #f5c26b;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 21px; line-height: 1.6;
+    padding: max(16px, env(safe-area-inset-top)) 16px 40px;
+    max-width: 640px; margin: 0 auto;
+  }
+  h1 { font-size: 30px; line-height: 1.3; margin: 12px 0 6px; }
+  h2 { font-size: 25px; margin: 36px 0 14px; padding-bottom: 6px; border-bottom: 3px solid var(--ink); }
+  .lead { font-size: 20px; color: var(--muted); margin: 0 0 8px; }
+  b, strong { font-weight: 800; }
+  .hl { background: #fde68a; padding: 0 4px; border-radius: 4px; }
+
+  .step { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 16px 16px 18px; margin: 0 0 16px; break-inside: avoid; }
+  .step-head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .num { flex: none; width: 46px; height: 46px; border-radius: 50%; background: var(--accent); color: #fff;
+         font-size: 26px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .step-title { font-size: 23px; font-weight: 800; line-height: 1.35; }
+  .step p { margin: 6px 0; }
+
+  .pic { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap;
+         background: #f3f0ea; border-radius: 14px; padding: 16px; margin: 12px 0 4px; }
+  .pic .label { font-size: 19px; font-weight: 700; }
+  .ios-icon { width: 64px; height: 64px; flex: none; }
+  .fake-btn { display: inline-flex; align-items: center; gap: 10px; background: #fff; border: 2px solid #d6d3d1;
+              border-radius: 14px; padding: 10px 16px; font-size: 21px; font-weight: 700; }
+  .fake-btn.blue { color: var(--blue); }
+  .fake-btn.orange { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .fake-btn.dark { background: #1c1917; color: #fff; border-color: #1c1917; }
+  .app-icon { width: 76px; height: 76px; border-radius: 18px; box-shadow: 0 2px 6px rgba(0,0,0,.25); }
+
+  .tip { background: var(--tip); border: 2px solid var(--tip-line); border-radius: 14px; padding: 10px 14px; margin: 12px 0 0; font-size: 19px; }
+  .done { background: #ecfdf3; border: 2px solid #86efac; border-radius: 18px; padding: 16px; font-size: 22px; font-weight: 700; text-align: center; margin: 8px 0 0; }
+
+  .open-btn { display: block; text-align: center; background: var(--accent); color: #fff; text-decoration: none;
+              font-size: 24px; font-weight: 800; border-radius: 16px; padding: 18px; margin: 12px 0 4px; }
+  .qr-wrap { text-align: center; margin: 12px 0 4px; }
+  .qr-wrap canvas { width: 220px; height: 220px; image-rendering: pixelated; background: #fff; padding: 12px; border-radius: 12px; border: 2px solid var(--line); }
+  .url { font-size: 16px; color: var(--muted); word-break: break-all; }
+
+  /* 根据环境只显示一种「打开方式」 */
+  .only-phone, .only-other { display: none; }
+  body.is-iphone .only-phone { display: block; }
+  body:not(.is-iphone) .only-other { display: block; }
+
+  #wechat { display: none; position: sticky; top: 0; z-index: 9; background: #dc2626; color: #fff; border-radius: 0 0 16px 16px;
+            padding: 14px 16px; margin: -16px -16px 16px; font-size: 21px; font-weight: 700; line-height: 1.5; }
+  #wechat .arrow { float: right; font-size: 40px; line-height: 1; margin: -4px 0 0 8px; }
+
+  .helper { font-size: 16px; color: var(--muted); border-top: 1px dashed var(--line); margin-top: 32px; padding-top: 12px; }
+
+  @media print {
+    body { font-size: 17px; padding: 0; max-width: none; }
+    h1 { font-size: 26px; } h2 { font-size: 21px; margin-top: 18px; }
+    .step { padding: 10px 12px; margin-bottom: 10px; }
+    .only-phone, #wechat, .helper { display: none !important; }
+    .only-other { display: block !important; }
+    .page-break { break-before: page; }
+  }
+</style>
+</head>
+<body>
+
+<div id="wechat">
+  <span class="arrow">↗</span>
+  现在是在微信里打开的，装不了。<br>
+  请点右上角的 <b>「···」</b>，再点 <b>「在 Safari 中打开」</b>（有的版本写「在默认浏览器中打开」）。
+</div>
+
+<h1>✂ 发型水印<br>安装说明</h1>
+<p class="lead">给 Henry（Q7 Hair Salon）<br>只需要装<b>一次</b>，大约 3 分钟。</p>
+
+<!-- ===================== 第一部分：安装 ===================== -->
+<h2>一、把「发型水印」装到手机桌面</h2>
+
+<div class="step">
+  <div class="step-head"><div class="num">1</div><div class="step-title">打开「发型水印」网页</div></div>
+
+  <div class="only-phone">
+    <p>点下面这个橙色按钮：</p>
+    <a class="open-btn" id="openLink" href="./">打开「发型水印」</a>
+    <p class="tip">⚠️ 请先把这一页的第 2～5 步看一遍，记住要点哪几个地方，再点上面的按钮。</p>
+  </div>
+
+  <div class="only-other">
+    <p>拿出 iPhone，打开<b>「相机」</b>（平时拍照用的那个），<br>对准下面这个二维码：</p>
+    <div class="qr-wrap"><canvas id="qr" width="220" height="220"></canvas></div>
+    <p>屏幕上会出现一个<span class="hl">黄色的小框</span>，<b>用手指点一下它</b>。</p>
+  </div>
+
+  <div class="pic">
+    <img class="app-icon" src="icon-180.png" alt="">
+    <span class="label">打开后能看到<br>「✂ 发型水印」这几个大字<br>就对了</span>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="num">2</div><div class="step-title">点屏幕最下面的「分享」按钮</div></div>
+  <p>它长这样：一个方框，上面有一个<b>向上的箭头</b>。</p>
+  <div class="pic">
+    <svg class="ios-icon" viewBox="0 0 64 64" aria-hidden="true">
+      <rect x="1" y="1" width="62" height="62" rx="14" fill="#fff" stroke="#d6d3d1" stroke-width="2"/>
+      <path d="M22 28h-4v22h28V28h-4" fill="none" stroke="#0a84ff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M32 38V12M24 19l8-8 8 8" fill="none" stroke="#0a84ff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="label">分享</span>
+  </div>
+  <p class="tip">💡 如果下面<b>找不到</b>这个按钮：先点右下角的 <b>「···」</b>（三个点），<br>就能看到「分享」了。</p>
+  <div class="pic">
+    <svg class="ios-icon" viewBox="0 0 64 64" aria-hidden="true">
+      <rect x="1" y="1" width="62" height="62" rx="14" fill="#fff" stroke="#d6d3d1" stroke-width="2"/>
+      <circle cx="32" cy="32" r="20" fill="none" stroke="#1c1917" stroke-width="3"/>
+      <circle cx="23" cy="32" r="3" fill="#1c1917"/><circle cx="32" cy="32" r="3" fill="#1c1917"/><circle cx="41" cy="32" r="3" fill="#1c1917"/>
+    </svg>
+    <span class="label">「···」</span>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="num">3</div><div class="step-title">找到「添加到主屏幕」，点它</div></div>
+  <p>下面会弹出一个菜单。<b>用手指往上推</b>，一直往下找，<br>找到<b>「添加到主屏幕」</b>（图标是方框里一个<b>加号 ＋</b>）。</p>
+  <div class="pic">
+    <span class="fake-btn">
+      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="3" y="3" width="24" height="24" rx="6" fill="none" stroke="#1c1917" stroke-width="2.4"/><path d="M15 9v12M9 15h12" stroke="#1c1917" stroke-width="2.4" stroke-linecap="round"/></svg>
+      添加到主屏幕
+    </span>
+  </div>
+  <p class="tip">💡 菜单里如果没有，就点最下面的<b>「编辑操作」</b>或<b>「更多」</b>再找找。</p>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="num">4</div><div class="step-title">点右上角蓝色的「添加」</div></div>
+  <p>名字已经写好了，<b>什么都不用改</b>。<br>（如果看到「作为网页 App 打开」的开关，让它保持<b>开着</b>就行。）</p>
+  <div class="pic"><span class="fake-btn blue">添加</span></div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="num">5</div><div class="step-title">回到桌面，找到这个图标</div></div>
+  <div class="pic">
+    <img class="app-icon" src="icon-180.png" alt="">
+    <span class="label">黑底、橙色剪刀<br>名字叫「发型水印」</span>
+  </div>
+  <p>以后<b>每次都点这个图标</b>打开，不用再找网址了。</p>
+</div>
+
+<div class="done">🎉 装好了！以后都不用再装。</div>
+
+<!-- ===================== 第二部分：使用 ===================== -->
+<h2 class="page-break">二、以后每次怎么用（1 分钟）</h2>
+
+<div class="step">
+  <div class="step-head"><div class="num">1</div><div class="step-title">点桌面上的「发型水印」</div></div>
+  <div class="pic"><img class="app-icon" src="icon-180.png" alt=""></div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="num">2</div><div class="step-title">选要发到哪里</div></div>
+  <p>发 <b>Instagram、Facebook、TikTok、小红书</b> → 点<b>「普通版」</b></p>
+  <p>发 <b>微信朋友圈</b> → 点<b>「微信版」</b>（会带二维码）</p>
+  <div class="pic"><span class="fake-btn">普通版</span><span class="fake-btn" style="border-color:#07c160">微信版</span></div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="num">3</div><div class="step-title">点「选照片」，挑照片</div></div>
+  <div class="pic"><span class="fake-btn orange">📷 选照片</span></div>
+  <p>弹出来后点<b>「照片图库」</b>，<br>点你要的照片（<b>可以点好几张</b>），<br>再点右上角<b>「添加」</b>。</p>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="num">4</div><div class="step-title">点「全部保存」→「存储图像」</div></div>
+  <div class="pic"><span class="fake-btn dark">⬇ 全部保存</span></div>
+  <p>在弹出的菜单里点<b>「存储图像」</b>（或「存储 X 张图像」）。<br>照片就存进相册了。</p>
+  <p class="tip">💡 第一次保存时，手机可能会问能不能用「照片」，点<b>「允许」</b>。</p>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="num">5</div><div class="step-title">像平时一样发出去</div></div>
+  <p>打开 Instagram 或微信，从相册里选<b>刚才存的照片</b>发就行。</p>
+</div>
+
+<h2>三、有人预约了怎么办</h2>
+<div class="step">
+  <p>📧 你会收到一封<b>邮件</b>，手机<b>日历</b>里也会自动多出一条。</p>
+  <p>里面有客人的<b>名字、电话、时间</b>，还有<b>到店还是上门</b>。</p>
+  <p>📞 <b>打电话给客人确认</b>就可以了。</p>
+</div>
+
+<p class="helper">有不会的地方，截图发给帮你装的人就行。<br>
+本页网址：<span class="url" id="selfUrl"></span></p>
+
+<script src="vendor/qrcode.min.js"></script>
+<script>
+(function () {
+  const ua = navigator.userAgent;
+  const isWeChat = /MicroMessenger/i.test(ua);
+  const isIPhone = /iPhone|iPod/.test(ua);
+  if (isIPhone && !isWeChat) document.body.classList.add('is-iphone');
+  if (isWeChat) document.getElementById('wechat').style.display = 'block';
+
+  const toolUrl = new URL('./', location.href).href;
+  document.getElementById('selfUrl').textContent = location.href.split('?')[0];
+
+  // 在别的设备上看 / 打印时显示的二维码，指向工具首页
+  const qr = qrcode(0, 'M');
+  qr.addData(toolUrl);
+  qr.make();
+  const cv = document.getElementById('qr'), ctx = cv.getContext('2d');
+  const n = qr.getModuleCount(), cell = Math.floor(220 / (n + 2)), off = Math.floor((220 - cell * n) / 2);
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, 220, 220);
+  ctx.fillStyle = '#000';
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++)
+    if (qr.isDark(r, c)) ctx.fillRect(off + c * cell, off + r * cell, cell, cell);
+})();
+</script>
+</body>
+</html>
