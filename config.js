@@ -5,13 +5,13 @@ window.BARBER_CONFIG = {
   // 水印上显示的店名
   shopName: 'Q7 Hair Salon',
 
-  // Cal.com 预约链接（TODO：注册 Cal.com 后换成真实链接，建议用户名 q7hair → https://cal.com/q7hair）
-  // 还是占位链接时，工具顶部会显示红色提醒，避免带着错误二维码发出去
-  bookingUrl: 'https://cal.com/your-name',
+  // Cal.com 预约主页：客人可选择剪发、染发或烫发服务
+  // 微信版二维码使用此链接；普通版网址文字见 normalCaption
+  bookingUrl: 'https://cal.com/henryli668',
 
   // 普通版（Instagram / Facebook / TikTok / 小红书）水印第二行文字
   // 客人在 Milpitas，以英文为主
-  normalCaption: 'Henry · Book via link in bio',
+  normalCaption: 'Henry · cal.com/henryli668',
 
   // 微信版二维码下面的文字
   wechatCaption: '长按识别 · 在线预约 Henry',
